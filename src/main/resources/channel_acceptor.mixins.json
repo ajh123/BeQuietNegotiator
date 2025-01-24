@@ -1,0 +1,14 @@
+{
+    "required": true,
+    "minVersion": "0.8",
+    "package": "me.ajh123.channel_acceptor.mixins",
+    "compatibilityLevel": "JAVA_17",
+    "mixins": [],
+    "client": [],
+    "server": [
+        "NetworkComponentNegotiatorMixin"
+    ],
+    "injectors": {
+        "defaultRequire": 1
+    }
+}

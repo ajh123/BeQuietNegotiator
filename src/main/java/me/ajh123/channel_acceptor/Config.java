@@ -23,9 +23,6 @@ public class Config
 
     static final ModConfigSpec SPEC = BUILDER.build();
 
-    public static boolean logDirtBlock;
-    public static int magicNumber;
-    public static String magicNumberIntroduction;
     public static Set<ResourceLocation> channels;
 
     private static boolean dummyValidate(final Object obj){

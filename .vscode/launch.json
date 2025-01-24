@@ -4,12 +4,12 @@
     {
       "type": "java",
       "request": "launch",
-      "name": "Channelacceptor-template - Client",
+      "name": "channel_acceptor - Client",
       "presentation": {
-        "group": "NG - channelacceptor-template",
+        "group": "NG - channel_acceptor",
         "order": 0
       },
-      "projectName": "channelacceptor-template",
+      "projectName": "channel_acceptor",
       "mainClass": "cpw.mods.bootstraplauncher.BootstrapLauncher",
       "args": [
         "--launchTarget",
@@ -49,7 +49,7 @@
         "-Dforge.logging.console.level\u003ddebug",
         "-Dneoforge.enabledGameTestNamespaces\u003dchannel_acceptor",
         "-Dneoforge.enableGameTest\u003dtrue",
-        "-DlegacyClassPath.file\u003dD:\\projects\\minecraft\\channelacceptor-template\\.gradle\\configuration\\neoForm\\neoFormJoined1.21.1-20240808.144430\\steps\\writeMinecraftClasspathClient\\classpath.txt",
+        "-DlegacyClassPath.file\u003dD:\\projects\\minecraft\\channel_acceptor\\.gradle\\configuration\\neoForm\\neoFormJoined1.21.1-20240808.144430\\steps\\writeMinecraftClasspathClient\\classpath.txt",
         "-DignoreList\u003dsecurejarhandler-3.0.8.jar,asm-9.7.jar,asm-commons-9.7.jar,asm-tree-9.7.jar,asm-util-9.7.jar,asm-analysis-9.7.jar,bootstraplauncher-2.0.2.jar,JarJarFileSystems-0.4.1.jar,mixinextras-neoforge-0.4.1.jar,client-extra,neoforge-",
         "-Dfml.gameLayerLibraries",
         "-DmergeModules\u003djna-5.10.0.jar,jna-platform-5.10.0.jar",
@@ -58,28 +58,28 @@
       ],
       "cwd": "${workspaceFolder}\\runs\\client",
       "env": {
-        "MOD_CLASSES": "channelacceptor-template%%D:\\projects\\minecraft\\channelacceptor-template\\bin\\main"
+        "MOD_CLASSES": "channel_acceptor%%D:\\projects\\minecraft\\channel_acceptor\\bin\\main"
       },
       "shortenCommandLine": "argfile"
     },
     {
       "type": "java",
       "request": "launch",
-      "name": "Channelacceptor-template - Data",
+      "name": "channel_acceptor - Data",
       "presentation": {
-        "group": "NG - channelacceptor-template",
+        "group": "NG - channel_acceptor",
         "order": 1
       },
-      "projectName": "channelacceptor-template",
+      "projectName": "channel_acceptor",
       "mainClass": "cpw.mods.bootstraplauncher.BootstrapLauncher",
       "args": [
         "--mod",
         "channel_acceptor",
         "--all",
         "--output",
-        "D:\\projects\\minecraft\\channelacceptor-template\\src\\generated\\resources",
+        "D:\\projects\\minecraft\\channel_acceptor\\src\\generated\\resources",
         "--existing",
-        "D:\\projects\\minecraft\\channelacceptor-template\\src\\main\\resources",
+        "D:\\projects\\minecraft\\channel_acceptor\\src\\main\\resources",
         "--launchTarget",
         "forgedatauserdev",
         "--assetIndex",
@@ -112,7 +112,7 @@
         "jdk.naming.dns/com.sun.jndi.dns\u003djava.naming",
         "-Dforge.logging.markers\u003dREGISTRIES",
         "-Dforge.logging.console.level\u003ddebug",
-        "-DlegacyClassPath.file\u003dD:\\projects\\minecraft\\channelacceptor-template\\.gradle\\configuration\\neoForm\\neoFormJoined1.21.1-20240808.144430\\steps\\writeMinecraftClasspathData\\classpath.txt",
+        "-DlegacyClassPath.file\u003dD:\\projects\\minecraft\\channel_acceptor\\.gradle\\configuration\\neoForm\\neoFormJoined1.21.1-20240808.144430\\steps\\writeMinecraftClasspathData\\classpath.txt",
         "-DignoreList\u003dsecurejarhandler-3.0.8.jar,asm-9.7.jar,asm-commons-9.7.jar,asm-tree-9.7.jar,asm-util-9.7.jar,asm-analysis-9.7.jar,bootstraplauncher-2.0.2.jar,JarJarFileSystems-0.4.1.jar,mixinextras-neoforge-0.4.1.jar,client-extra,neoforge-",
         "-Dfml.gameLayerLibraries",
         "-DmergeModules\u003djna-5.10.0.jar,jna-platform-5.10.0.jar",
@@ -121,19 +121,19 @@
       ],
       "cwd": "${workspaceFolder}\\runs\\data",
       "env": {
-        "MOD_CLASSES": "channelacceptor-template%%D:\\projects\\minecraft\\channelacceptor-template\\bin\\main"
+        "MOD_CLASSES": "channel_acceptor%%D:\\projects\\minecraft\\channel_acceptor\\bin\\main"
       },
       "shortenCommandLine": "argfile"
     },
     {
       "type": "java",
       "request": "launch",
-      "name": "Channelacceptor-template - GameTestServer",
+      "name": "channel_acceptor - GameTestServer",
       "presentation": {
-        "group": "NG - channelacceptor-template",
+        "group": "NG - channel_acceptor",
         "order": 2
       },
-      "projectName": "channelacceptor-template",
+      "projectName": "channel_acceptor",
       "mainClass": "cpw.mods.bootstraplauncher.BootstrapLauncher",
       "args": [
         "--launchTarget",
@@ -167,7 +167,7 @@
         "-Dneoforge.enabledGameTestNamespaces\u003dchannel_acceptor",
         "-Dneoforge.enableGameTest\u003dtrue",
         "-Dneoforge.gameTestServer\u003dtrue",
-        "-DlegacyClassPath.file\u003dD:\\projects\\minecraft\\channelacceptor-template\\.gradle\\configuration\\neoForm\\neoFormJoined1.21.1-20240808.144430\\steps\\writeMinecraftClasspathGameTestServer\\classpath.txt",
+        "-DlegacyClassPath.file\u003dD:\\projects\\minecraft\\channel_acceptor\\.gradle\\configuration\\neoForm\\neoFormJoined1.21.1-20240808.144430\\steps\\writeMinecraftClasspathGameTestServer\\classpath.txt",
         "-DignoreList\u003dsecurejarhandler-3.0.8.jar,asm-9.7.jar,asm-commons-9.7.jar,asm-tree-9.7.jar,asm-util-9.7.jar,asm-analysis-9.7.jar,bootstraplauncher-2.0.2.jar,JarJarFileSystems-0.4.1.jar,mixinextras-neoforge-0.4.1.jar,client-extra,neoforge-",
         "-Dfml.gameLayerLibraries",
         "-DmergeModules\u003djna-5.10.0.jar,jna-platform-5.10.0.jar",
@@ -176,19 +176,19 @@
       ],
       "cwd": "${workspaceFolder}\\runs\\gameTestServer",
       "env": {
-        "MOD_CLASSES": "channelacceptor-template%%D:\\projects\\minecraft\\channelacceptor-template\\bin\\main"
+        "MOD_CLASSES": "channel_acceptor%%D:\\projects\\minecraft\\channel_acceptor\\bin\\main"
       },
       "shortenCommandLine": "argfile"
     },
     {
       "type": "java",
       "request": "launch",
-      "name": "Channelacceptor-template - Junit",
+      "name": "channel_acceptor - Junit",
       "presentation": {
-        "group": "NG - channelacceptor-template",
+        "group": "NG - channel_acceptor",
         "order": 3
       },
-      "projectName": "channelacceptor-template",
+      "projectName": "channel_acceptor",
       "mainClass": "cpw.mods.bootstraplauncher.BootstrapLauncher",
       "args": [
         "--launchTarget",
@@ -226,7 +226,7 @@
         "-XX:HeapDumpPath\u003dMojangTricksIntelDriversForPerformance_javaw.exe_minecraft.exe.heapdump",
         "-Dforge.logging.markers\u003dREGISTRIES",
         "-Dforge.logging.console.level\u003ddebug",
-        "-DlegacyClassPath.file\u003dD:\\projects\\minecraft\\channelacceptor-template\\.gradle\\configuration\\neoForm\\neoFormJoined1.21.1-20240808.144430\\steps\\writeMinecraftClasspathJunit\\classpath.txt",
+        "-DlegacyClassPath.file\u003dD:\\projects\\minecraft\\channel_acceptor\\.gradle\\configuration\\neoForm\\neoFormJoined1.21.1-20240808.144430\\steps\\writeMinecraftClasspathJunit\\classpath.txt",
         "-DignoreList\u003dsecurejarhandler-3.0.8.jar,asm-9.7.jar,asm-commons-9.7.jar,asm-tree-9.7.jar,asm-util-9.7.jar,asm-analysis-9.7.jar,bootstraplauncher-2.0.2.jar,JarJarFileSystems-0.4.1.jar,mixinextras-neoforge-0.4.1.jar,client-extra,neoforge-",
         "-Dfml.gameLayerLibraries",
         "-DmergeModules\u003djna-5.10.0.jar,jna-platform-5.10.0.jar",
@@ -235,7 +235,7 @@
       ],
       "cwd": "${workspaceFolder}\\runs\\junit",
       "env": {
-        "MOD_CLASSES": "channelacceptor-template%%D:\\projects\\minecraft\\channelacceptor-template\\bin\\main",
+        "MOD_CLASSES": "channel_acceptor%%D:\\projects\\minecraft\\channel_acceptor\\bin\\main",
         "MCP_MAPPINGS": "UNUSED_DEPRECATED"
       },
       "shortenCommandLine": "argfile"
@@ -243,12 +243,12 @@
     {
       "type": "java",
       "request": "launch",
-      "name": "Channelacceptor-template - Server",
+      "name": "channel_acceptor - Server",
       "presentation": {
-        "group": "NG - channelacceptor-template",
+        "group": "NG - channel_acceptor",
         "order": 4
       },
-      "projectName": "channelacceptor-template",
+      "projectName": "channel_acceptor",
       "mainClass": "cpw.mods.bootstraplauncher.BootstrapLauncher",
       "args": [
         "--nogui",
@@ -281,7 +281,7 @@
         "-Dforge.logging.markers\u003dREGISTRIES",
         "-Dforge.logging.console.level\u003ddebug",
         "-Dneoforge.enabledGameTestNamespaces\u003dchannel_acceptor",
-        "-DlegacyClassPath.file\u003dD:\\projects\\minecraft\\channelacceptor-template\\.gradle\\configuration\\neoForm\\neoFormJoined1.21.1-20240808.144430\\steps\\writeMinecraftClasspathServer\\classpath.txt",
+        "-DlegacyClassPath.file\u003dD:\\projects\\minecraft\\channel_acceptor\\.gradle\\configuration\\neoForm\\neoFormJoined1.21.1-20240808.144430\\steps\\writeMinecraftClasspathServer\\classpath.txt",
         "-DignoreList\u003dsecurejarhandler-3.0.8.jar,asm-9.7.jar,asm-commons-9.7.jar,asm-tree-9.7.jar,asm-util-9.7.jar,asm-analysis-9.7.jar,bootstraplauncher-2.0.2.jar,JarJarFileSystems-0.4.1.jar,mixinextras-neoforge-0.4.1.jar,client-extra,neoforge-",
         "-Dfml.gameLayerLibraries",
         "-DmergeModules\u003djna-5.10.0.jar,jna-platform-5.10.0.jar",
@@ -290,7 +290,7 @@
       ],
       "cwd": "${workspaceFolder}\\runs\\server",
       "env": {
-        "MOD_CLASSES": "channelacceptor-template%%D:\\projects\\minecraft\\channelacceptor-template\\bin\\main"
+        "MOD_CLASSES": "channel_acceptor%%D:\\projects\\minecraft\\channel_acceptor\\bin\\main"
       },
       "shortenCommandLine": "argfile"
     },
