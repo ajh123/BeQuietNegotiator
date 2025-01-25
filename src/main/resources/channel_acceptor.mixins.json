@@ -1,6 +1,7 @@
 {
     "required": true,
     "minVersion": "0.8",
+    "refmap": "channel_acceptor.refmap.json",
     "package": "me.ajh123.channel_acceptor.mixins",
     "compatibilityLevel": "JAVA_17",
     "mixins": [],
