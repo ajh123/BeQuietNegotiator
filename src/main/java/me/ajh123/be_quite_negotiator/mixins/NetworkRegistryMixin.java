@@ -1,8 +1,8 @@
-package me.ajh123.channel_acceptor.mixins;
+package me.ajh123.be_quite_negotiator.mixins;
 
 import com.google.common.collect.ImmutableSet;
-import me.ajh123.channel_acceptor.ChannelAcceptor;
-import me.ajh123.channel_acceptor.ClientConfig;
+import me.ajh123.be_quite_negotiator.BeQuiteNegotiator;
+import me.ajh123.be_quite_negotiator.ClientConfig;
 import net.minecraft.network.ConnectionProtocol;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.common.ClientCommonPacketListener;
@@ -40,7 +40,7 @@ public class NetworkRegistryMixin {
         // Use reflection to unlock the private PAYLOAD_REGISTRATIONS static member from NetworkRegistry
         Map<ConnectionProtocol, Map<ResourceLocation, PayloadRegistration<?>>> PAYLOAD_REGISTRATIONS = getConnectionProtocolMap();
 
-        ChannelAcceptor.LOGGER.info("acceptVanillaServer: {}", ClientConfig.acceptVanillaServer());
+        BeQuiteNegotiator.LOGGER.info("acceptVanillaServer: {}", ClientConfig.acceptVanillaServer());
         if (ClientConfig.acceptVanillaServer()) {
             // We are on the client, connected to a vanilla server, make sure we don't have any modded feature flags
             if (!CheckFeatureFlags.handleVanillaServerConnection(listener)) {

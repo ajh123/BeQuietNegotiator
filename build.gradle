@@ -28,7 +28,7 @@ loom {
     silentMojangMappingsLicense()
     mixin {
         useLegacyMixinAp = true
-        defaultRefmapName.set("channel_acceptor.refmap.json")
+        defaultRefmapName.set("be_quite_negotiator.refmap.json")
     }
 }
 

@@ -1,14 +1,12 @@
-package me.ajh123.channel_acceptor;
+package me.ajh123.be_quite_negotiator;
 
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.event.config.ModConfigEvent;
-import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.neoforge.common.ModConfigSpec;
-import org.slf4j.Logger;
 
-@EventBusSubscriber(modid = ChannelAcceptor.MODID, bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(modid = BeQuiteNegotiator.MODID, bus = EventBusSubscriber.Bus.MOD)
 public class ClientConfig
 {
     private static final ModConfigSpec.Builder BUILDER = new ModConfigSpec.Builder();

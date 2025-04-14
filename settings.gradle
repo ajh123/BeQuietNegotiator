@@ -7,4 +7,4 @@ pluginManagement {
     }
 }
 
-rootProject.name = 'channel_acceptor'
+rootProject.name = 'be_quite_negotiator'
