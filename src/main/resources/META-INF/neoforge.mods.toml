@@ -5,7 +5,7 @@ license = "Insert License Here"
 
 [[mods]]
 modId = "channel_acceptor"
-version = "${version}"
+version = "1.0.0"
 displayName = "Channel Acceptor"
 authors = "ajh123"
 description = '''

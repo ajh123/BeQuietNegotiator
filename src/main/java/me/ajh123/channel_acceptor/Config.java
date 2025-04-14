@@ -10,8 +10,6 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.config.ModConfigEvent;
 import net.neoforged.neoforge.common.ModConfigSpec;
 
-// An example config class. This is not required, but it's a good idea to have one to keep your config organized.
-// Demonstrates how to use Neo's config APIs
 @EventBusSubscriber(modid = ChannelAcceptor.MODID, bus = EventBusSubscriber.Bus.MOD)
 public class Config
 {
@@ -21,9 +19,14 @@ public class Config
             .comment("A list of channel names to listen on")
             .defineListAllowEmpty("channels", List.of("mod:example"), Config::dummyValidate);
 
+    private static final ModConfigSpec.ConfigValue<Boolean> ACCEPT_ALL_CHANNELS = BUILDER
+            .comment("If true, all channels will be accepted regardless of the list")
+            .define("acceptAllChannels", true);
+
     static final ModConfigSpec SPEC = BUILDER.build();
 
     public static Set<ResourceLocation> channels;
+    public static boolean acceptAllChannels;
 
     private static boolean dummyValidate(final Object obj){
         return true;
@@ -31,9 +34,12 @@ public class Config
 
     @SubscribeEvent
     static void onLoad(final ModConfigEvent event){
-        // convert the list of strings into a set of items
+        // Convert the list of strings into a set of items
         channels = CHANNELS_STRINGS.get().stream()
                 .map(itemName -> ResourceLocation.parse(itemName))
                 .collect(Collectors.toSet());
+
+        // Load the boolean value
+        acceptAllChannels = ACCEPT_ALL_CHANNELS.get();
     }
 }
