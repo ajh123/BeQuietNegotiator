@@ -34,7 +34,7 @@ public class NetworkComponentNegotiatorMixin {
         List<NegotiableNetworkComponent> modifiedClient = new ArrayList<>(clientComponents);
 
         for (NegotiableNetworkComponent component : clientComponents) {
-            if (Config.channels.contains(component.id()) || Config.acceptAllChannels) {
+            if (Config.channels().contains(component.id()) || Config.acceptAllChannels()) {
                 modifiedServer.add(component);
             } else {
                 System.out.println("Channel " + component.id() + " is not in the config");
@@ -65,7 +65,7 @@ public class NetworkComponentNegotiatorMixin {
         List<NegotiableNetworkComponent> modifiedClient = new ArrayList<>(clientComponents);
 
         for (NegotiableNetworkComponent component : clientComponents) {
-            if (Config.channels.contains(component.id()) || Config.acceptAllChannels) {
+            if (Config.channels().contains(component.id()) || Config.acceptAllChannels()) {
                 modifiedServer.add(component);
             } else {
                 System.out.println("Channel " + component.id() + " is not in the config");

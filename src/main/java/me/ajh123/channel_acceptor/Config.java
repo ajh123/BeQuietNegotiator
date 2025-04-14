@@ -7,7 +7,9 @@ import java.util.stream.Collectors;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.event.config.ModConfigEvent;
+import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.neoforge.common.ModConfigSpec;
 
 @EventBusSubscriber(modid = ChannelAcceptor.MODID, bus = EventBusSubscriber.Bus.MOD)
@@ -25,8 +27,8 @@ public class Config
 
     static final ModConfigSpec SPEC = BUILDER.build();
 
-    public static Set<ResourceLocation> channels;
-    public static boolean acceptAllChannels;
+    private static Set<ResourceLocation> channels;
+    private static boolean acceptAllChannels;
 
     private static boolean dummyValidate(final Object obj){
         return true;
@@ -34,6 +36,12 @@ public class Config
 
     @SubscribeEvent
     static void onLoad(final ModConfigEvent event){
+        ChannelAcceptor.LOGGER.info("Is server config: {}?", event.getConfig().getType() == ModConfig.Type.SERVER);
+        // Ensure the event is for the correct configuration type
+        if (event.getConfig().getType() != ModConfig.Type.SERVER) {
+            return;
+        }
+
         // Convert the list of strings into a set of items
         channels = CHANNELS_STRINGS.get().stream()
                 .map(itemName -> ResourceLocation.parse(itemName))
@@ -41,5 +49,13 @@ public class Config
 
         // Load the boolean value
         acceptAllChannels = ACCEPT_ALL_CHANNELS.get();
+    }
+
+    public static Set<ResourceLocation> channels() {
+        return channels;
+    }
+
+    public static boolean acceptAllChannels() {
+        return acceptAllChannels;
     }
 }

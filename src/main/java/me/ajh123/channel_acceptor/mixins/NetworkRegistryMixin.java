@@ -1,0 +1,98 @@
+package me.ajh123.channel_acceptor.mixins;
+
+import com.google.common.collect.ImmutableSet;
+import me.ajh123.channel_acceptor.ChannelAcceptor;
+import me.ajh123.channel_acceptor.ClientConfig;
+import net.minecraft.network.ConnectionProtocol;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.common.ClientCommonPacketListener;
+import net.minecraft.network.protocol.configuration.ClientConfigurationPacketListener;
+import net.minecraft.resources.ResourceLocation;
+import net.neoforged.fml.config.ConfigTracker;
+import net.neoforged.neoforge.network.configuration.CheckFeatureFlags;
+import net.neoforged.neoforge.network.filters.NetworkFilters;
+import net.neoforged.neoforge.network.payload.MinecraftRegisterPayload;
+import net.neoforged.neoforge.network.registration.ChannelAttributes;
+import net.neoforged.neoforge.network.registration.NetworkPayloadSetup;
+import net.neoforged.neoforge.network.registration.NetworkRegistry;
+import net.neoforged.neoforge.network.registration.PayloadRegistration;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+import java.lang.reflect.Field;
+import java.util.Map;
+
+@Mixin(NetworkRegistry.class)
+public class NetworkRegistryMixin {
+    @Inject(
+            method = "initializeOtherConnection(Lnet/minecraft/network/protocol/configuration/ClientConfigurationPacketListener;)V",
+            at = @At("HEAD"),
+            remap = false,
+            cancellable = true
+    )
+    private static void initializeOtherConnection(ClientConfigurationPacketListener listener, CallbackInfo ci) {
+        // Because we are in vanilla land, no matter what we are not able to support any custom channels.
+        ChannelAttributes.setPayloadSetup(listener.getConnection(), NetworkPayloadSetup.empty());
+        ChannelAttributes.setConnectionType(listener.getConnection(), listener.getConnectionType());
+
+        // Use reflection to unlock the private PAYLOAD_REGISTRATIONS static member from NetworkRegistry
+        Map<ConnectionProtocol, Map<ResourceLocation, PayloadRegistration<?>>> PAYLOAD_REGISTRATIONS = getConnectionProtocolMap();
+
+        ChannelAcceptor.LOGGER.info("acceptVanillaServer: {}", ClientConfig.acceptVanillaServer());
+        if (ClientConfig.acceptVanillaServer()) {
+            // We are on the client, connected to a vanilla server, make sure we don't have any modded feature flags
+            if (!CheckFeatureFlags.handleVanillaServerConnection(listener)) {
+                return;
+            }
+
+            // We are on the client, connected to a vanilla server, We have to load the default configs.
+            ConfigTracker.INSTANCE.loadDefaultServerConfigs();
+
+            NetworkFilters.injectIfNecessary(listener.getConnection());
+
+            ImmutableSet.Builder<ResourceLocation> nowListeningOn = ImmutableSet.builder();
+            nowListeningOn.addAll(NetworkRegistry.getInitialListeningChannels(listener.flow()));
+            PAYLOAD_REGISTRATIONS.get(ConnectionProtocol.CONFIGURATION).entrySet().stream()
+                    .filter(registration -> registration.getValue().matchesFlow(listener.flow()))
+                    .filter(registration -> registration.getValue().optional())
+                    .forEach(registration -> nowListeningOn.add(registration.getKey()));
+            listener.send(new MinecraftRegisterPayload(nowListeningOn.build()));
+
+            ci.cancel();
+        }
+    }
+
+    private static Map<ConnectionProtocol, Map<ResourceLocation, PayloadRegistration<?>>> getConnectionProtocolMap() {
+        Field payloadRegistrationsField = null;
+        try {
+            payloadRegistrationsField = NetworkRegistry.class.getDeclaredField("PAYLOAD_REGISTRATIONS");
+        } catch (NoSuchFieldException e) {
+            throw new RuntimeException(e);
+        }
+        payloadRegistrationsField.setAccessible(true);
+
+        // Get the PAYLOAD_REGISTRATIONS map
+        @SuppressWarnings("unchecked")
+        Map<ConnectionProtocol, Map<ResourceLocation, PayloadRegistration<?>>> PAYLOAD_REGISTRATIONS = null;
+        try {
+            PAYLOAD_REGISTRATIONS = (Map<ConnectionProtocol, Map<ResourceLocation, PayloadRegistration<?>>>) payloadRegistrationsField.get(null);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
+        return PAYLOAD_REGISTRATIONS;
+    }
+
+    @Inject(
+            method = "checkPacket(Lnet/minecraft/network/protocol/Packet;Lnet/minecraft/network/protocol/common/ClientCommonPacketListener;)V",
+            at = @At("HEAD"),
+            remap = false,
+            cancellable = true
+    )
+    private static void checkPacket(Packet<?> packet, ClientCommonPacketListener listener, CallbackInfo ci) {
+        if (ClientConfig.acceptVanillaServer()) {
+            ci.cancel();
+        }
+    }
+}
