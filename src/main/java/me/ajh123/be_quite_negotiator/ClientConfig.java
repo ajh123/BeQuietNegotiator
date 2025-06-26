@@ -15,9 +15,15 @@ public class ClientConfig
             .comment("If true, client will accept connections to a vanilla server, no matter the current mod set.")
             .define("acceptVanillaServer", true);
 
+    private static final ModConfigSpec.ConfigValue<Boolean> BYPASS_CUSTOM_FEATURE_FLAGS = BUILDER
+            .comment("If true, client will bypass custom feature flags when connecting to a vanilla server.")
+            .define("bypassCustomFeatureFlags", true);
+
     static final ModConfigSpec SPEC = BUILDER.build();
 
     private static boolean acceptVanillaServer;
+
+    private static boolean bypassCustomFeatureFlags;
 
 
     @SubscribeEvent
@@ -29,9 +35,14 @@ public class ClientConfig
 
         // Load the boolean value
         acceptVanillaServer = ACCEPT_VANILLA_SERVER.get();
+        bypassCustomFeatureFlags = BYPASS_CUSTOM_FEATURE_FLAGS.get();
     }
 
     public static boolean acceptVanillaServer() {
         return acceptVanillaServer;
+    }
+
+    public static boolean bypassCustomFeatureFlags() {
+        return bypassCustomFeatureFlags;
     }
 }
