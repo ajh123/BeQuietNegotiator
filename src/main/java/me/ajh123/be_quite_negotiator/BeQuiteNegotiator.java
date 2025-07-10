@@ -14,6 +14,9 @@ public class BeQuiteNegotiator
     public static final String MODID = "be_quite_negotiator";
     public static final Logger LOGGER = org.slf4j.LoggerFactory.getLogger(MODID);
 
+    // This boolean is used to determine if the client is connected to a vanilla server.
+    public static boolean isConnectedToVanillaServer = false;
+
     // The constructor for the mod class is the first code that is run when your mod is loaded.
     // FML will recognize some parameter types like IEventBus or ModContainer and pass them in automatically.
     public BeQuiteNegotiator(IEventBus modEventBus, ModContainer modContainer) {

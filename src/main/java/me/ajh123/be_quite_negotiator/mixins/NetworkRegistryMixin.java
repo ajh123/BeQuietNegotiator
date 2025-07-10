@@ -7,11 +7,13 @@ import net.minecraft.network.ConnectionProtocol;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.common.ClientCommonPacketListener;
 import net.minecraft.network.protocol.configuration.ClientConfigurationPacketListener;
+import net.minecraft.network.protocol.configuration.ServerConfigurationPacketListener;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.fml.config.ConfigTracker;
 import net.neoforged.neoforge.network.configuration.CheckFeatureFlags;
 import net.neoforged.neoforge.network.filters.NetworkFilters;
 import net.neoforged.neoforge.network.payload.MinecraftRegisterPayload;
+import net.neoforged.neoforge.network.payload.ModdedNetworkQueryComponent;
 import net.neoforged.neoforge.network.registration.ChannelAttributes;
 import net.neoforged.neoforge.network.registration.NetworkPayloadSetup;
 import net.neoforged.neoforge.network.registration.NetworkRegistry;
@@ -23,9 +25,19 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.lang.reflect.Field;
 import java.util.Map;
+import java.util.Set;
 
 @Mixin(NetworkRegistry.class)
 public class NetworkRegistryMixin {
+    @Inject(
+            method = "initializeNeoForgeConnection(Lnet/minecraft/network/protocol/configuration/ServerConfigurationPacketListener;Ljava/util/Map;)V",
+            at = @At("TAIL"),
+            remap = false
+    )
+    private static void initializeNeoForgeConnection(ServerConfigurationPacketListener listener, Map<ConnectionProtocol, Set<ModdedNetworkQueryComponent>> clientChannels, CallbackInfo ci) {
+        BeQuiteNegotiator.isConnectedToVanillaServer = false;
+    }
+
     @Inject(
             method = "initializeOtherConnection(Lnet/minecraft/network/protocol/configuration/ClientConfigurationPacketListener;)V",
             at = @At("HEAD"),
@@ -59,6 +71,8 @@ public class NetworkRegistryMixin {
                     .filter(registration -> registration.getValue().optional())
                     .forEach(registration -> nowListeningOn.add(registration.getKey()));
             listener.send(new MinecraftRegisterPayload(nowListeningOn.build()));
+
+            BeQuiteNegotiator.isConnectedToVanillaServer = true;
 
             ci.cancel();
         }
