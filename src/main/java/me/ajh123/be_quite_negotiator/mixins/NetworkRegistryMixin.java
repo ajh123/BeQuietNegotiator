@@ -45,6 +45,8 @@ public class NetworkRegistryMixin {
             cancellable = true
     )
     private static void initializeOtherConnection(ClientConfigurationPacketListener listener, CallbackInfo ci) {
+        // <Default NeoForge implementation>
+
         // Because we are in vanilla land, no matter what we are not able to support any custom channels.
         ChannelAttributes.setPayloadSetup(listener.getConnection(), NetworkPayloadSetup.empty());
         ChannelAttributes.setConnectionType(listener.getConnection(), listener.getConnectionType());
@@ -52,8 +54,12 @@ public class NetworkRegistryMixin {
         // Use reflection to unlock the private PAYLOAD_REGISTRATIONS static member from NetworkRegistry
         Map<ConnectionProtocol, Map<ResourceLocation, PayloadRegistration<?>>> PAYLOAD_REGISTRATIONS = getConnectionProtocolMap();
 
-        BeQuiteNegotiator.LOGGER.info("acceptVanillaServer: {}", ClientConfig.acceptVanillaServer());
+        // </Default NeoForge implementation>
+
+        // We are on vanilla, skip payload and extended enums negotiation as these checks would fail anyway.
+
         if (ClientConfig.acceptVanillaServer()) {
+            // <Default NeoForge implementation>
             // We are on the client, connected to a vanilla server, make sure we don't have any modded feature flags
             if (!CheckFeatureFlags.handleVanillaServerConnection(listener)) {
                 return;
@@ -71,11 +77,13 @@ public class NetworkRegistryMixin {
                     .filter(registration -> registration.getValue().optional())
                     .forEach(registration -> nowListeningOn.add(registration.getKey()));
             listener.send(new MinecraftRegisterPayload(nowListeningOn.build()));
+            // </Default NeoForge implementation>
 
             BeQuiteNegotiator.isConnectedToVanillaServer = true;
 
             ci.cancel();
         }
+        // Only propagate to super if we are not connected to a vanilla server - done automatically by not returning early.
     }
 
     private static Map<ConnectionProtocol, Map<ResourceLocation, PayloadRegistration<?>>> getConnectionProtocolMap() {
@@ -105,7 +113,8 @@ public class NetworkRegistryMixin {
             cancellable = true
     )
     private static void checkPacket(Packet<?> packet, ClientCommonPacketListener listener, CallbackInfo ci) {
-        if (ClientConfig.acceptVanillaServer()) {
+        // If we are connected to a vanilla server, we don't need to check the packet.
+        if (BeQuiteNegotiator.isConnectedToVanillaServer) {
             ci.cancel();
         }
     }

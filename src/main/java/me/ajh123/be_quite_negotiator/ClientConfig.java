@@ -19,11 +19,17 @@ public class ClientConfig
             .comment("If true, client will bypass custom feature flags when connecting to a vanilla server.")
             .define("bypassCustomFeatureFlags", true);
 
+    private static final ModConfigSpec.ConfigValue<Boolean> IGNORE_PACKET_DECODING_ERRORS = BUILDER
+            .comment("If true, client will ignore packet decoding errors when connecting to a vanilla server.")
+            .define("ignorePacketDecodingErrors", true);
+
     static final ModConfigSpec SPEC = BUILDER.build();
 
     private static boolean acceptVanillaServer;
 
     private static boolean bypassCustomFeatureFlags;
+
+    private static boolean ignorePacketDecodingErrors;
 
 
     @SubscribeEvent
@@ -36,6 +42,7 @@ public class ClientConfig
         // Load the boolean value
         acceptVanillaServer = ACCEPT_VANILLA_SERVER.get();
         bypassCustomFeatureFlags = BYPASS_CUSTOM_FEATURE_FLAGS.get();
+        ignorePacketDecodingErrors = IGNORE_PACKET_DECODING_ERRORS.get();
     }
 
     public static boolean acceptVanillaServer() {
@@ -44,5 +51,9 @@ public class ClientConfig
 
     public static boolean bypassCustomFeatureFlags() {
         return bypassCustomFeatureFlags;
+    }
+
+    public static boolean ignorePacketDecodingErrors() {
+        return ignorePacketDecodingErrors;
     }
 }

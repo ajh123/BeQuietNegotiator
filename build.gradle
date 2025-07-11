@@ -30,6 +30,9 @@ loom {
         useLegacyMixinAp = true
         defaultRefmapName.set("be_quite_negotiator.refmap.json")
     }
+    neoForge {
+        accessTransformer("$rootDir/src/main/resources/META-INF/accesstransformer.cfg")
+    }
 }
 
 dependencies {
