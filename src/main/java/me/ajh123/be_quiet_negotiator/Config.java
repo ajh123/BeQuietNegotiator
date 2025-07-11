@@ -1,4 +1,4 @@
-package me.ajh123.be_quite_negotiator;
+package me.ajh123.be_quiet_negotiator;
 
 import java.util.List;
 import java.util.Set;
@@ -11,7 +11,7 @@ import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.event.config.ModConfigEvent;
 import net.neoforged.neoforge.common.ModConfigSpec;
 
-@EventBusSubscriber(modid = BeQuiteNegotiator.MODID, bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(modid = BeQuietNegotiator.MODID, bus = EventBusSubscriber.Bus.MOD)
 public class Config
 {
     private static final ModConfigSpec.Builder BUILDER = new ModConfigSpec.Builder();
@@ -35,7 +35,7 @@ public class Config
 
     @SubscribeEvent
     static void onLoad(final ModConfigEvent event){
-        BeQuiteNegotiator.LOGGER.info("Is server config: {}?", event.getConfig().getType() == ModConfig.Type.SERVER);
+        BeQuietNegotiator.LOGGER.info("Is server config: {}?", event.getConfig().getType() == ModConfig.Type.SERVER);
         // Ensure the event is for the correct configuration type
         if (event.getConfig().getType() != ModConfig.Type.SERVER) {
             return;

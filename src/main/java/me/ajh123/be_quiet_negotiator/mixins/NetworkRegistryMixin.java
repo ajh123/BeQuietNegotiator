@@ -1,8 +1,8 @@
-package me.ajh123.be_quite_negotiator.mixins;
+package me.ajh123.be_quiet_negotiator.mixins;
 
 import com.google.common.collect.ImmutableSet;
-import me.ajh123.be_quite_negotiator.BeQuiteNegotiator;
-import me.ajh123.be_quite_negotiator.ClientConfig;
+import me.ajh123.be_quiet_negotiator.BeQuietNegotiator;
+import me.ajh123.be_quiet_negotiator.ClientConfig;
 import net.minecraft.network.ConnectionProtocol;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.common.ClientCommonPacketListener;
@@ -35,7 +35,7 @@ public class NetworkRegistryMixin {
             remap = false
     )
     private static void initializeNeoForgeConnection(ServerConfigurationPacketListener listener, Map<ConnectionProtocol, Set<ModdedNetworkQueryComponent>> clientChannels, CallbackInfo ci) {
-        BeQuiteNegotiator.isConnectedToVanillaServer = false;
+        BeQuietNegotiator.isConnectedToVanillaServer = false;
     }
 
     @Inject(
@@ -79,7 +79,7 @@ public class NetworkRegistryMixin {
             listener.send(new MinecraftRegisterPayload(nowListeningOn.build()));
             // </Default NeoForge implementation>
 
-            BeQuiteNegotiator.isConnectedToVanillaServer = true;
+            BeQuietNegotiator.isConnectedToVanillaServer = true;
 
             ci.cancel();
         }
@@ -114,7 +114,7 @@ public class NetworkRegistryMixin {
     )
     private static void checkPacket(Packet<?> packet, ClientCommonPacketListener listener, CallbackInfo ci) {
         // If we are connected to a vanilla server, we don't need to check the packet.
-        if (BeQuiteNegotiator.isConnectedToVanillaServer) {
+        if (BeQuietNegotiator.isConnectedToVanillaServer) {
             ci.cancel();
         }
     }

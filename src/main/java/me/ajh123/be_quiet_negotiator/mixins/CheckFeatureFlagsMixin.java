@@ -1,7 +1,7 @@
-package me.ajh123.be_quite_negotiator.mixins;
+package me.ajh123.be_quiet_negotiator.mixins;
 
-import me.ajh123.be_quite_negotiator.BeQuiteNegotiator;
-import me.ajh123.be_quite_negotiator.ClientConfig;
+import me.ajh123.be_quiet_negotiator.BeQuietNegotiator;
+import me.ajh123.be_quiet_negotiator.ClientConfig;
 import net.minecraft.network.protocol.configuration.ClientConfigurationPacketListener;
 import net.neoforged.neoforge.network.configuration.CheckFeatureFlags;
 import org.spongepowered.asm.mixin.Mixin;
@@ -18,7 +18,7 @@ public class CheckFeatureFlagsMixin {
             cancellable = true
     )
     private static void handleVanillaServerConnection(ClientConfigurationPacketListener listener, CallbackInfoReturnable<Boolean> cir) {
-        if (BeQuiteNegotiator.isConnectedToVanillaServer && ClientConfig.bypassCustomFeatureFlags()) {
+        if (BeQuietNegotiator.isConnectedToVanillaServer && ClientConfig.bypassCustomFeatureFlags()) {
             // If the client config allows bypassing custom feature flags, we return true to allow the connection
             cir.setReturnValue(true);
         }

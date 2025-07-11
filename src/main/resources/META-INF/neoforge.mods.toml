@@ -4,9 +4,9 @@ issueTrackerURL = "https://github.com/ajh123/BeQuietNegotiator/issues"
 license = "GPL-3.0"
 
 [[mods]]
-modId = "be_quite_negotiator"
+modId = "be_quiet_negotiator"
 version = "1.0.0"
-displayName = "Be Quite Negotiator"
+displayName = "Be Quiet Negotiator"
 authors = "ajh123"
 description = '''
 Be Quiet Negotiator is a lightweight, client-side-only NeoForge mod that lets modded clients connect to vanilla or minimally modded servers (such as Fabric servers with only server-side mods) without triggering NeoForge’s strict network negotiation process. Normally, NeoForge enforces a handshake protocol to ensure both client and server agree on modded payloads and capabilities. This mod quietly suppresses that negotiation when connecting to servers that don’t speak NeoForge, allowing the connection to go through cleanly without disconnects or errors — hence, it “negotiates” by staying silent.
@@ -17,14 +17,14 @@ Important Note: Some mods may depend on successful negotiation or expect server-
 '''
 #logoFile = ""
 
-[[dependencies.be_quite_negotiator]]
+[[dependencies.be_quiet_negotiator]]
 modId = "neoforge"
 type = "required"
 versionRange = "[21.1,)"
 ordering = "NONE"
 side = "BOTH"
 
-[[dependencies.be_quite_negotiator]]
+[[dependencies.be_quiet_negotiator]]
 modId = "minecraft"
 type = "required"
 versionRange = "[1.21.1,)"
@@ -32,7 +32,7 @@ ordering = "NONE"
 side = "BOTH"
 
 [[mixins]]
-config = "be_quite_negotiator.mixins.json"
+config = "be_quiet_negotiator.mixins.json"
 
 [[accessTransformers]]
 file="META-INF/accesstransformer.cfg"

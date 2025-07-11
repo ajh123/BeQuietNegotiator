@@ -1,4 +1,4 @@
-package me.ajh123.be_quite_negotiator.mixins;
+package me.ajh123.be_quiet_negotiator.mixins;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +9,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyArgs;
 import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
 
-import me.ajh123.be_quite_negotiator.Config;
+import me.ajh123.be_quiet_negotiator.Config;
 import net.neoforged.neoforge.network.negotiation.NegotiableNetworkComponent;
 
 @Mixin(NetworkRegistry.class)

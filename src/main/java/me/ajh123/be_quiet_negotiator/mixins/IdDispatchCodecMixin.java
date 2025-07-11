@@ -1,14 +1,11 @@
-package me.ajh123.be_quite_negotiator.mixins;
+package me.ajh123.be_quiet_negotiator.mixins;
 
 import io.netty.buffer.ByteBuf;
-import io.netty.buffer.Unpooled;
 import io.netty.handler.codec.DecoderException;
-import me.ajh123.be_quite_negotiator.BeQuiteNegotiator;
-import net.minecraft.network.FriendlyByteBuf;
+import me.ajh123.be_quiet_negotiator.BeQuietNegotiator;
 import net.minecraft.network.VarInt;
 import net.minecraft.network.codec.IdDispatchCodec;
 import net.minecraft.network.codec.StreamCodec;
-import net.neoforged.neoforge.network.codec.NeoForgeStreamCodecs;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -31,7 +28,7 @@ public class IdDispatchCodecMixin {
             cancellable = true
     )
     private void decode(ByteBuf byteBuf, CallbackInfoReturnable<StreamCodec<ByteBuf, ?>> cir) {
-        if (BeQuiteNegotiator.isConnectedToVanillaServer) {
+        if (BeQuietNegotiator.isConnectedToVanillaServer) {
             try {
                 // <Default Minecraft implementation>
                 int i = VarInt.read(byteBuf);
@@ -48,7 +45,7 @@ public class IdDispatchCodecMixin {
                 }
                 // </Default Minecraft implementation>
             } catch (DecoderException e) {
-                BeQuiteNegotiator.LOGGER.error("Error decoding packet:", e);
+                BeQuietNegotiator.LOGGER.error("Error decoding packet:", e);
                 // We cannot return null here, as it would cause a NullPointerException later in the code.
                 // Instead, we return an empty codec and byteBuf.
                 cir.setReturnValue(new StreamCodec<>() {

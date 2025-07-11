@@ -28,7 +28,7 @@ loom {
     silentMojangMappingsLicense()
     mixin {
         useLegacyMixinAp = true
-        defaultRefmapName.set("be_quite_negotiator.refmap.json")
+        defaultRefmapName.set("be_quiet_negotiator.refmap.json")
     }
     neoForge {
         accessTransformer("$rootDir/src/main/resources/META-INF/accesstransformer.cfg")
