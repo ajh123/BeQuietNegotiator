@@ -1,0 +1,66 @@
+name: Release on GitHub
+
+on:
+  push:
+    tags:
+      - 'v*'  # triggers on version tags like v1.0.0, v1.0.0-rc1, etc.
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          fetch-tags: true
+
+      - name: Setup JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Build artifacts
+        run: |
+          chmod +x ./gradlew
+          ./gradlew clean build
+
+      - name: Find version
+        id: version
+        run: |
+          TAG_NAME="${GITHUB_REF#refs/tags/}"
+          VERSION="${TAG_NAME#v}"
+          IS_PRERELEASE=false
+          if [[ "$TAG_NAME" =~ -rc[0-9]+$ ]]; then
+            IS_PRERELEASE=true
+          fi
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "is_prerelease=$IS_PRERELEASE" >> $GITHUB_OUTPUT
+
+      - name: Get changelog
+        id: changelog
+        run: |
+          VERSION=${{ steps.version.outputs.version }}
+          CHANGELOG_FILE="docs/changelog/${VERSION}.md"
+          if [ ! -f "$CHANGELOG_FILE" ]; then
+            echo "Changelog file not found: $CHANGELOG_FILE"
+            exit 1
+          fi
+          echo "changelog<<EOF" >> $GITHUB_OUTPUT
+          cat "$CHANGELOG_FILE" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Upload release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name }}
+          name: Release ${{ steps.version.outputs.version }}
+          body: ${{ steps.changelog.outputs.changelog }}
+          prerelease: ${{ steps.version.outputs.is_prerelease }}
+          files: |
+            build/libs/*.jar

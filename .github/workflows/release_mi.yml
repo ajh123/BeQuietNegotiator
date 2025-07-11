@@ -1,0 +1,72 @@
+name: Modrinth Publish
+
+on:
+  push:
+    tags:
+      - 'v*'  # Match version tags like v1.2.3 or v1.2.3-rc1
+
+jobs:
+  publish-to-modrinth:
+    name: Publish to Modrinth
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          fetch-tags: true
+
+      - name: Setup JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Build project
+        run: |
+          chmod +x ./gradlew
+          ./gradlew clean build
+
+      - name: Extract version info
+        id: version
+        run: |
+          TAG="${GITHUB_REF#refs/tags/}"
+          VERSION="${TAG#v}"
+          CHANNEL="release"
+          if [[ "$TAG" =~ -rc[0-9]+$ ]]; then
+            CHANNEL="beta"
+          fi
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "channel=$CHANNEL" >> $GITHUB_OUTPUT
+
+      - name: Read changelog
+        id: changelog
+        run: |
+          FILE="docs/changelog/${{ steps.version.outputs.version }}.md"
+          if [ ! -f "$FILE" ]; then
+            echo "Changelog not found: $FILE"
+            exit 1
+          fi
+          echo "changelog<<EOF" >> $GITHUB_OUTPUT
+          cat "$FILE" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Publish to Modrinth
+        uses: cloudnode-pro/modrinth-publish@v2
+        with:
+          token: ${{ secrets.MODRINTH_TOKEN }}
+          project: be-quiet-negotiator  # <<< REPLACE THIS with your Modrinth project ID
+          name: Release ${{ steps.version.outputs.version }}
+          version: v${{ steps.version.outputs.version }}
+          changelog: ${{ steps.changelog.outputs.changelog }}
+          channel: ${{ steps.version.outputs.channel }}
+          loaders: '["neoforge"]'             # <<< Adjust as appropriate
+          game-versions: '["1.21.x"]'       # <<< Adjust as appropriate
+          files: |
+            build/libs/be_quite_negotiator-${{ steps.version.outputs.version }}.jar
+            build/libs/be_quite_negotiator-${{ steps.version.outputs.version }}-sources.jar
+          primary-file: be_quite_negotiator-${{ steps.version.outputs.version }}.jar
