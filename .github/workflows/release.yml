@@ -56,9 +56,11 @@ jobs:
             echo "Changelog not found: $FILE"
             exit 1
           fi
-          echo "changelog<<EOF" >> $GITHUB_OUTPUT
-          cat "$FILE" >> $GITHUB_OUTPUT
-          echo "EOF" >> $GITHUB_OUTPUT
+          {
+            echo 'changelog<<EOF'
+            cat "$FILE"
+            echo 'EOF'
+          } >> "$GITHUB_OUTPUT"
 
       - name: Upload GitHub release
         uses: softprops/action-gh-release@v2
