@@ -3,7 +3,7 @@ name: Release and Publish
 on:
   push:
     tags:
-      - 'v*'  # Match tags like v1.0.0 or v1.0.0-rc1
+      - 'v*'
 
 jobs:
   release-and-publish:
@@ -37,52 +37,34 @@ jobs:
           VERSION="${TAG#v}"
 
           IS_PRERELEASE=false
-          CHANNEL="release"
+          VERSION_TYPE=release
 
           if [[ "$TAG" =~ -rc[0-9]+$ ]]; then
             IS_PRERELEASE=true
-            CHANNEL="beta"
+            VERSION_TYPE=beta
           fi
 
           echo "version=$VERSION" >> $GITHUB_OUTPUT
           echo "is_prerelease=$IS_PRERELEASE" >> $GITHUB_OUTPUT
-          echo "channel=$CHANNEL" >> $GITHUB_OUTPUT
+          echo "version_type=$VERSION_TYPE" >> $GITHUB_OUTPUT
 
-      - name: Read changelog
-        id: changelog
-        run: |
-          FILE="docs/changelog/v${{ steps.version.outputs.version }}.md"
-          if [ ! -f "$FILE" ]; then
-            echo "Changelog not found: $FILE"
-            exit 1
-          fi
-          BODY=$(cat $FILE)
-          echo "body<<EOF" >> $GITHUB_ENV
-          echo "$BODY" >> $GITHUB_ENV
-          echo "EOF" >> $GITHUB_ENV
-
-      - name: Upload GitHub release
-        uses: softprops/action-gh-release@v2
+      - name: Publish with mc-publish
+        uses: Kir-Antipov/mc-publish@v3.3
         with:
-          tag_name: ${{ github.ref_name }}
-          name: Release ${{ steps.version.outputs.version }}
-          body: ${{ env.body }}
-          prerelease: ${{ steps.version.outputs.is_prerelease }}
-          files: |
-            build/libs/*.jar
-
-      - name: Publish to Modrinth
-        uses: cloudnode-pro/modrinth-publish@v2
-        with:
-          token: ${{ secrets.MODRINTH_TOKEN }}
-          project: be-quiet-negotiator  # Replace with your Modrinth project ID
+          modrinth-id: be-quiet-negotiator
+          modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          github-tag: ${{ github.ref_name }}
+          github-draft: false
+          github-prerelease: ${{ steps.version.outputs.is_prerelease }}
           name: Release ${{ steps.version.outputs.version }}
           version: ${{ steps.version.outputs.version }}
-          changelog: ${{ env.body }}
-          channel: ${{ steps.version.outputs.channel }}
-          loaders: '["neoforge"]'
-          game-versions: '["1.21.x"]'
+          version-type: ${{ steps.version.outputs.version_type }}
+          changelog-file: docs/changelog/v${{ steps.version.outputs.version }}.md
           files: |
             build/libs/be_quiet_negotiator-${{ steps.version.outputs.version }}.jar
             build/libs/be_quiet_negotiator-${{ steps.version.outputs.version }}-sources.jar
-          primary-file: be_quiet_negotiator-${{ steps.version.outputs.version }}.jar
+          loaders: |
+            neoforge
+          game-versions: |
+            1.21.x
