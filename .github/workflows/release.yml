@@ -83,6 +83,5 @@ jobs:
           loaders: '["neoforge"]'
           game-versions: '["1.21.x"]'
           files: |
-            build/libs/be_quiet_negotiator-${{ steps.version.outputs.version }}.jar
-            build/libs/be_quiet_negotiator-${{ steps.version.outputs.version }}-sources.jar
+            build/libs/*.jar
           primary-file: be_quiet_negotiator-${{ steps.version.outputs.version }}.jar
