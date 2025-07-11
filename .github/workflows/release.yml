@@ -82,7 +82,7 @@ jobs:
           channel: ${{ steps.version.outputs.channel }}
           loaders: '["neoforge"]'
           game-versions: '["1.21.x"]'
-          files: |
+          files: |-
             build/libs/be_quite_negotiator-${{ steps.version.outputs.version }}.jar
             build/libs/be_quite_negotiator-${{ steps.version.outputs.version }}-sources.jar
           primary-file: be_quite_negotiator-${{ steps.version.outputs.version }}.jar
