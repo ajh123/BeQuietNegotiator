@@ -56,18 +56,17 @@ jobs:
             echo "Changelog not found: $FILE"
             exit 1
           fi
-          {
-            echo 'changelog<<EOF'
-            cat "$FILE"
-            echo 'EOF'
-          } >> "$GITHUB_OUTPUT"
+          BODY=$(cat $FILE)
+          echo "body<<EOF" >> $GITHUB_ENV
+          echo "$BODY" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
 
       - name: Upload GitHub release
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ github.ref_name }}
           name: Release ${{ steps.version.outputs.version }}
-          body: ${{ steps.changelog.outputs.changelog }}
+          body: ${{ env.body }}
           prerelease: ${{ steps.version.outputs.is_prerelease }}
           files: |
             build/libs/*.jar
@@ -79,7 +78,7 @@ jobs:
           project: be-quiet-negotiator  # Replace with your Modrinth project ID
           name: Release ${{ steps.version.outputs.version }}
           version: ${{ steps.version.outputs.version }}
-          changelog: ${{ steps.changelog.outputs.changelog }}
+          changelog: ${{ env.body }}
           channel: ${{ steps.version.outputs.channel }}
           loaders: '["neoforge"]'
           game-versions: '["1.21.x"]'
