@@ -36,7 +36,7 @@ public class PacketDecoderMixin {
             cancellable = true,
             remap = false
     )
-    private void decode(ChannelHandlerContext channelHandlerContext, ByteBuf byteBuf, List<Object> list, CallbackInfo ci) throws IOException {
+    private void decode(ChannelHandlerContext channelHandlerContext, ByteBuf byteBuf, List<Object> list, CallbackInfo ci) {
         if (BeQuietNegotiator.isConnectedToVanillaServer && ClientConfig.ignorePacketDecodingErrors()) {
             try {
                 // <Default Minecraft implementation>>
@@ -68,7 +68,7 @@ public class PacketDecoderMixin {
                     }
                 }
                 // </Default Minecraft implementation>
-            } catch (DecoderException e) {
+            } catch (DecoderException | IOException e) {
                 BeQuietNegotiator.LOGGER.error("Error decoding packet:", e);
                 ci.cancel();
             }
