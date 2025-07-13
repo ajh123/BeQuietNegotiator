@@ -62,7 +62,8 @@ public class NetworkRegistryMixin {
             BeQuietNegotiator.isConnectedToVanillaServer = true;
             // <Default NeoForge implementation>
             // We are on the client, connected to a vanilla server, make sure we don't have any modded feature flags
-            if (!CheckFeatureFlags.handleVanillaServerConnection(listener)) {
+            // or bypass custom feature flags if configured to do so.
+            if (!ClientConfig.bypassCustomFeatureFlags() && !CheckFeatureFlags.handleVanillaServerConnection(listener)) {
                 return;
             }
 
