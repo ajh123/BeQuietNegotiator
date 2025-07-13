@@ -18,8 +18,10 @@ public class CheckFeatureFlagsMixin {
             cancellable = true
     )
     private static void handleVanillaServerConnection(ClientConfigurationPacketListener listener, CallbackInfoReturnable<Boolean> cir) {
+//        System.out.println(BeQuietNegotiator.isConnectedToVanillaServer + ":" + ClientConfig.acceptVanillaServer() + ":" + ClientConfig.bypassCustomFeatureFlags());
         if (BeQuietNegotiator.isConnectedToVanillaServer && ClientConfig.bypassCustomFeatureFlags()) {
             // If the client config allows bypassing custom feature flags, we return true to allow the connection
+//            System.out.println("Bypassing custom feature flags for vanilla server connection.");
             cir.setReturnValue(true);
         }
     }

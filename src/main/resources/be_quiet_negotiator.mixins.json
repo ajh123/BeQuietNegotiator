@@ -8,9 +8,9 @@
 
   ],
   "client": [
-    "NetworkRegistryMixin",
     "CheckFeatureFlagsMixin",
-    "IdDispatchCodecMixin"
+    "NetworkRegistryMixin",
+    "PacketDecoderMixin"
   ],
   "server": [
     "NetworkComponentNegotiatorMixin"
