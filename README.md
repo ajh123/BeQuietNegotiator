@@ -21,11 +21,11 @@ Furthermore, all patches are configurable, allowing users to enable or disable s
 ## Use cases
 
 This mod is ideal for:
-1. Players who want to connect to vanilla servers without needing a full NeoForge setup.
-2. Proxy networks that use NeoForge for modded backends but need to allow connections from clients that don’t
-   support NeoForge.
-3. Players who want to use NeoForge client mods on servers that don’t run NeoForge, such as Fabric servers with
-   server-side-only mods
+1. Players using NeoForge clients who want to join vanilla servers, preventing disconnects caused by missing network negotiation responses.
+2. Players connecting through hybrid or proxy networks, where the entrypoint is a vanilla or non-NeoForge server, avoiding failed handshakes when the client expects NeoForge.
+3. Modpack developers or testers using full-stack NeoForge mods client-side, who want to connect to unmodded or differently modded servers without having to disable mods each time.
+4. Players attempting to join servers without NeoForge, while still having mods installed that expect a modded server-side (e.g., worldgen, item, or GUI mods with networking).
+5. LAN or casual multiplayer setups, where only the client is running NeoForge with full-feature mods, and the server is unmodded or running a different mod loader.
 
 
 ## Included Patches (since v1.0.1)
