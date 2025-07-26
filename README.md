@@ -1,10 +1,50 @@
 # Be Quiet Negotiator
 
-Be Quiet Negotiator is a lightweight, client-side-only NeoForge mod that lets modded clients connect to vanilla or minimally modded servers (such as Fabric servers with only server-side mods) without triggering NeoForge’s strict network negotiation process. Normally, NeoForge enforces a handshake protocol to ensure both client and server agree on modded payloads and capabilities. This mod quietly suppresses that negotiation when connecting to servers that don’t speak NeoForge, allowing the connection to go through cleanly without disconnects or errors — hence, it “negotiates” by staying silent.
+Be Quiet Negotiator is a lightweight, client-side-only NeoForge mod that lets modded clients connect to vanilla or
+minimally modded servers (such as Fabric servers with only server-side mods) without triggering NeoForge’s
+strict network negotiation process.
 
-This mod is ideal for players who use NeoForge client mods (e.g. performance tools, HUDs, minimaps, or quality-of-life enhancements) and want to play on vanilla servers, Fabric servers with server-side-only mods, or proxy networks with modded backends. It’s also useful in multi-server setups where a minimal lobby server may not need full NeoForge support. Be Quiet Negotiator is safe by design: it only activates when the server is identified as non-NeoForge, leaving normal modded-to-modded connections completely untouched. Configuration is simple and toggleable, giving users fine control over when quiet negotiation is allowed.
+## How it works
 
-Important Note: Some mods may depend on successful negotiation or expect server-side support for certain features. In these cases, functionality may break silently or result in confusing behaviour. Use caution, and avoid placing or interacting with modded blocks, items, or GUIs on servers that aren’t running NeoForge. This mod enables compatibility, but it cannot make incompatible mods magically work.
+Normally, NeoForge enforces a handshake protocol to ensure both client and server agree on modded payloads and
+capabilities. This mod quietly suppresses that negotiation when connecting to servers that don’t speak NeoForge,
+allowing the connection to go through cleanly without disconnects or errors — hence, it “negotiates” by staying silent.
+
+In addition, other errors that may occur during the connection process, such as packet decoding errors
+or unexpected packet sizes, are also ignored, allowing the client to connect without issues.
+
+Specifically, Be Quiet Negotiator uses Mixins to patch the NeoForge client code, specifically targeting any annoying
+methods which produce errors or disconnects when connecting to servers that do not support NeoForge.
+
+Furthermore, all patches are configurable, allowing users to enable or disable specific patches as needed.
+
+## Use cases
+
+This mod is ideal for:
+1. Players who want to connect to vanilla servers without needing a full NeoForge setup.
+2. Proxy networks that use NeoForge for modded backends but need to allow connections from clients that don’t
+   support NeoForge.
+3. Players who want to use NeoForge client mods on servers that don’t run NeoForge, such as Fabric servers with
+   server-side-only mods
+
+
+## Included Patches (since v1.0.1)
+
+- `bypassNegotiationErrors` - Allows the client to connect to servers that do not support NeoForge by ignoring negotiation errors.
+- `bypassCustomFeatureFlags` - Ignores custom feature flags when connecting to a server, allowing the client to connect without issues.
+- `ignorePacketDecodingErrors` - Ignores packet decoding errors when connecting to a server, allowing the client to connect without issues.
+- `ignorePacketHandlerErrors` - Ignores client-side packet handling errors when connecting to a server, allowing the client to connect without issues.
+
+## Important notes
+
+Be Quiet Negotiator is safe by design: it only activates when the server is identified as non-NeoForge, leaving
+normal modded-to-modded connections completely untouched. Configuration is simple and toggleable, giving users fine
+control over when quiet negotiation is allowed.
+
+Important Note: Some mods may depend on successful negotiation or expect server-side support for certain features.
+In these cases, functionality may break silently or result in confusing behaviour. Use caution, and avoid placing
+or interacting with modded blocks, items, or GUIs on servers that aren’t running NeoForge. **This mod enables
+connection compatibility, but it cannot make incompatible mods magically work.**
 
 ## Development information
 
