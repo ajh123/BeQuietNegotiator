@@ -1,7 +1,7 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "refmap": "channel_acceptor.refmap.json",
+  "refmap": "be_quiet_negotiator.refmap.json",
   "package": "me.ajh123.be_quiet_negotiator.mixins",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
@@ -11,9 +11,6 @@
     "CheckFeatureFlagsMixin",
     "NetworkRegistryMixin",
     "PacketDecoderMixin"
-  ],
-  "server": [
-    "NetworkComponentNegotiatorMixin"
   ],
   "injectors": {
     "defaultRequire": 1

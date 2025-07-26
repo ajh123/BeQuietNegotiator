@@ -45,6 +45,7 @@ public class NetworkRegistryMixin {
             cancellable = true
     )
     private static void initializeOtherConnection(ClientConfigurationPacketListener listener, CallbackInfo ci) {
+        BeQuietNegotiator.isConnectedToVanillaServer = true;
         // <Default NeoForge implementation>
 
         // Because we are in vanilla land, no matter what we are not able to support any custom channels.
@@ -58,8 +59,7 @@ public class NetworkRegistryMixin {
 
         // We are on vanilla, skip payload and extended enums negotiation as these checks would fail anyway.
 
-        if (ClientConfig.acceptVanillaServer()) {
-            BeQuietNegotiator.isConnectedToVanillaServer = true;
+        if (ClientConfig.bypassNegotiationErrors()) {
             // <Default NeoForge implementation>
             // We are on the client, connected to a vanilla server, make sure we don't have any modded feature flags
             // or bypass custom feature flags if configured to do so.
@@ -114,7 +114,7 @@ public class NetworkRegistryMixin {
     )
     private static void checkPacket(Packet<?> packet, ClientCommonPacketListener listener, CallbackInfo ci) {
         // If we are connected to a vanilla server, we don't need to check the packet.
-        if (BeQuietNegotiator.isConnectedToVanillaServer) {
+        if (ClientConfig.bypassNegotiationErrors() && BeQuietNegotiator.isConnectedToVanillaServer) {
             ci.cancel();
         }
     }
