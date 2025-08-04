@@ -1,5 +1,8 @@
 name: "Bug Report"
-fields:
+description: "Use this template to report bugs or issues with Be Quiet Negotiator."
+title: "[Bug]: "
+labels: ["bug", "triage"]
+body:
   - type: "textarea"
     attributes:
       label: "Description"
