@@ -5,7 +5,7 @@ license = "GPL-3.0"
 
 [[mods]]
 modId = "be_quiet_negotiator"
-version = "1.0.1"
+version = "1.0.2"
 displayName = "Be Quiet Negotiator"
 authors = "ajh123"
 description = '''

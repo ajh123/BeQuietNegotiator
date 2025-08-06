@@ -5,10 +5,10 @@
   "package": "me.ajh123.be_quiet_negotiator.mixins",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
-
   ],
   "client": [
     "CheckFeatureFlagsMixin",
+    "ClientCommonPacketListenerImplMixin",
     "NetworkRegistryMixin",
     "PacketDecoderMixin"
   ],
