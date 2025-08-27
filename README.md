@@ -27,6 +27,20 @@ This mod is ideal for:
 4. Players attempting to join servers without NeoForge, while still having mods installed that expect a modded server-side (e.g., worldgen, item, or GUI mods with networking).
 5. LAN or casual multiplayer setups, where only the client is running NeoForge with full-feature mods, and the server is unmodded or running a different mod loader.
 
+## Making a production-ready proxy network?
+
+Do not use this mod! You will likely run into issues with mod compatibility, as Be Quiet Negotiator just suppresses errors
+and does not magically make incompatible mods work.
+
+Instead of using a traditional proxy to route connections to backend servers, I recommend giving each NeoForge server
+its own public IP address / domain.
+
+If you don't have enough IP addresses, you can use a reverse proxy like
+[Gate Lite Mode](https://gate.minekube.com/guide/lite) or my own [mc-router](https://github.com/CloudinatorMC/mc-router/)
+to route connections based on the Handshake packet's Server Address field.
+
+To transfer players between servers, use the vanilla `/transfer` command introduced in Minecraft 1.20.5, or install the
+[Server Redirect mod](https://modrinth.com/plugin/server-redirect).
 
 ## Included Patches (since v1.0.1)
 
@@ -48,7 +62,8 @@ connection compatibility, but it cannot make incompatible mods magically work.**
 
 ## Development information
 
-Once you have your clone, simply open the repository in the IDE of your choice. The usual recommendation for an IDE is either IntelliJ IDEA or Eclipse.
+Once you have your clone, simply open the repository in the IDE of your choice.
+The usual recommendation for an IDE is either IntelliJ IDEA or Eclipse.
 
 If at any point you are missing libraries in your IDE, or you've run into problems you can
 run `gradlew --refresh-dependencies` to refresh the local cache. `gradlew clean` to reset everything 
