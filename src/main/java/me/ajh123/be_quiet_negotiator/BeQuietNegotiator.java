@@ -21,7 +21,6 @@ public class BeQuietNegotiator
     // FML will recognize some parameter types like IEventBus or ModContainer and pass them in automatically.
     public BeQuietNegotiator(IEventBus modEventBus, ModContainer modContainer) {
         // Register our mod's ModConfigSpec so that FML can create and load the config file for us
-        modContainer.registerConfig(ModConfig.Type.SERVER, Config.SPEC);
         modContainer.registerConfig(ModConfig.Type.CLIENT, ClientConfig.SPEC);
     }
 }
