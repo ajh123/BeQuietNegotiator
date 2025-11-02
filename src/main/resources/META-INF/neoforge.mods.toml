@@ -29,14 +29,14 @@ modId = "neoforge"
 type = "required"
 versionRange = "[21.1,)"
 ordering = "NONE"
-side = "BOTH"
+side = "CLIENT"
 
 [[dependencies.be_quiet_negotiator]]
 modId = "minecraft"
 type = "required"
 versionRange = "[1.21.1,)"
 ordering = "NONE"
-side = "BOTH"
+side = "CLIENT"
 
 [[mixins]]
 config = "be_quiet_negotiator.mixins.json"
