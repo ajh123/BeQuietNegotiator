@@ -51,14 +51,19 @@ To transfer players between servers, use the vanilla `/transfer` command introdu
 
 ## Important notes
 
+### Connection Safety
+
 Be Quiet Negotiator is safe by design: it only activates when the server is identified as non-NeoForge, leaving
 normal modded-to-modded connections completely untouched. Configuration is simple and toggleable, giving users fine
 control over when quiet negotiation is allowed.
 
-Important Note: Some mods may depend on successful negotiation or expect server-side support for certain features.
-In these cases, functionality may break silently or result in confusing behaviour. Use caution, and avoid placing
-or interacting with modded blocks, items, or GUIs on servers that aren’t running NeoForge. **This mod enables
-connection compatibility, but it cannot make incompatible mods magically work.**
+### Mod Compatibility
+
+Some mods may depend on successful negotiation or expect server-side support for certain features. In these cases, functionality may break silently or result in confusing behaviour.
+
+Use caution, and avoid placing or interacting with modded blocks, items, or GUIs on servers that aren’t running NeoForge. **This mod enables connection compatibility, but it cannot make incompatible mods magically work.**
+
+We have a list of known incompatible mods in [docs/incompatibility.md](https://github.com/ajh123/BeQuietNegotiator/blob/main/docs/incompatibility.md).
 
 ## Development information
 
