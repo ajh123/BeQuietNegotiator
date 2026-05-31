@@ -1,14 +1,51 @@
 name: Release and Publish
-
 on:
   push:
     tags:
       - 'v*'
 
 jobs:
-  release-and-publish:
+  discover-versions:
     runs-on: ubuntu-latest
+    outputs:
+      game-versions: ${{ steps.discover.outputs.game-versions }}
+      version: ${{ steps.version.outputs.version }}
+      is-prerelease: ${{ steps.version.outputs.is_prerelease }}
+      version-type: ${{ steps.version.outputs.version_type }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          fetch-tags: true
 
+      - name: Extract version info
+        id: version
+        run: |
+          TAG="${GITHUB_REF#refs/tags/}"
+          VERSION="${TAG#v}"
+          IS_PRERELEASE=false
+          VERSION_TYPE=release
+          if [[ "$TAG" =~ -rc[0-9]+$ ]]; then
+            IS_PRERELEASE=true
+            VERSION_TYPE=beta
+          fi
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "is_prerelease=$IS_PRERELEASE" >> $GITHUB_OUTPUT
+          echo "version_type=$VERSION_TYPE" >> $GITHUB_OUTPUT
+
+      - name: Discover game versions
+        id: discover
+        run: |
+          VERSIONS=$(ls -d versions/*/ | xargs -I{} basename {} | jq -R . | jq -sc .)
+          echo "game-versions=$VERSIONS" >> $GITHUB_OUTPUT
+
+  build-and-publish:
+    needs: discover-versions
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        game-version: ${{ fromJson(needs.discover-versions.outputs.game-versions) }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -28,25 +65,7 @@ jobs:
       - name: Build project
         run: |
           chmod +x ./gradlew
-          ./gradlew clean build
-
-      - name: Extract version info
-        id: version
-        run: |
-          TAG="${GITHUB_REF#refs/tags/}"
-          VERSION="${TAG#v}"
-
-          IS_PRERELEASE=false
-          VERSION_TYPE=release
-
-          if [[ "$TAG" =~ -rc[0-9]+$ ]]; then
-            IS_PRERELEASE=true
-            VERSION_TYPE=beta
-          fi
-
-          echo "version=$VERSION" >> $GITHUB_OUTPUT
-          echo "is_prerelease=$IS_PRERELEASE" >> $GITHUB_OUTPUT
-          echo "version_type=$VERSION_TYPE" >> $GITHUB_OUTPUT
+          ./gradlew clean build -p versions/${{ matrix.game-version }}
 
       - name: Publish with mc-publish
         uses: Kir-Antipov/mc-publish@v3.3
@@ -56,15 +75,15 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           github-tag: ${{ github.ref_name }}
           github-draft: false
-          github-prerelease: ${{ steps.version.outputs.is_prerelease }}
-          name: Release ${{ steps.version.outputs.version }}
-          version: ${{ steps.version.outputs.version }}
-          version-type: ${{ steps.version.outputs.version_type }}
-          changelog-file: docs/changelog/v${{ steps.version.outputs.version }}.md
+          github-prerelease: ${{ needs.discover-versions.outputs.is-prerelease }}
+          name: Release ${{ needs.discover-versions.outputs.version }} for Minecraft ${{ matrix.game-version }}
+          version: ${{ needs.discover-versions.outputs.version }}+${{ matrix.game-version }}
+          version-type: ${{ needs.discover-versions.outputs.version-type }}
+          changelog-file: docs/changelog/v${{ needs.discover-versions.outputs.version }}.md
           files: |
-            build/libs/be_quiet_negotiator-${{ steps.version.outputs.version }}.jar
-            build/libs/be_quiet_negotiator-${{ steps.version.outputs.version }}-sources.jar
+            versions/${{ matrix.game-version }}/build/libs/be_quiet_negotiator/${{ needs.discover-versions.outputs.version }}+${{ matrix.game-version }}.jar
+            versions/${{ matrix.game-version }}/build/libs/be_quiet_negotiator/${{ needs.discover-versions.outputs.version }}+${{ matrix.game-version }}-sources.jar
           loaders: |
             neoforge
           game-versions: |
-            1.21.1
+            ${{ matrix.game-version }}
