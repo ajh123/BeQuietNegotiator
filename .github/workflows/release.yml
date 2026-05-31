@@ -81,8 +81,8 @@ jobs:
           version-type: ${{ needs.discover-versions.outputs.version-type }}
           changelog-file: docs/changelog/v${{ needs.discover-versions.outputs.version }}.md
           files: |
-            versions/${{ matrix.game-version }}/build/libs/be_quiet_negotiator/${{ needs.discover-versions.outputs.version }}+${{ matrix.game-version }}.jar
-            versions/${{ matrix.game-version }}/build/libs/be_quiet_negotiator/${{ needs.discover-versions.outputs.version }}+${{ matrix.game-version }}-sources.jar
+            versions/${{ matrix.game-version }}/build/libs/be_quiet_negotiator-${{ needs.discover-versions.outputs.version }}+${{ matrix.game-version }}.jar
+            versions/${{ matrix.game-version }}/build/libs/be_quiet_negotiator-${{ needs.discover-versions.outputs.version }}+${{ matrix.game-version }}-sources.jar
           loaders: |
             neoforge
           game-versions: |
